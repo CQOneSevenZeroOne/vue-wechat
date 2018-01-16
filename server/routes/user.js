@@ -1,11 +1,46 @@
-module.exports = function(app,conn){
-	app.post("/getUser",(req,res)=>{
-		res.append("Access-Control-Allow-Origin","*");
-		let sql = "select username,portrait from user";
-		conn.query(sql,(err,rs)=>{
-			if(err){
+module.exports = function(app, conn) {
+	app.post("/getUser", (req, res) => {
+		let sql = "select nickname,portrait from user";
+		conn.query(sql, (err, rs) => {
+			if(err) {
 				console.log(err.message);
-			}else{
+			} else {
+				res.send(rs);
+			}
+		})
+	});
+	app.get("/getAllUser", (req, res) => { //获取
+		let sql = "select username,nickname from user";
+		conn.query(sql, (err, rs) => {
+			if(err) {
+				console.log(err.message);
+			} else {
+				res.send(rs);
+			}
+		})
+	});
+	app.post("/register", (req, res) => { //注册
+		console.log(req.body);
+		let data = req.body;
+		let post = {
+			username: data.username,
+			pwd: data.pwd,
+			nickname: data.nickname,
+			rtime: data.rtime
+		}
+		conn.query("insert into user set ?", post, function(err, rs) {
+			if(err) {
+				console.log(err.message);
+			} else {
+				res.send("ok");
+			}
+		})
+	});
+	app.post("/login", (req, res) => {
+		let sql = "select username,pwd from user";
+		conn.query(sql, (err, rs) => {
+			if(err) console.log(err.messqge);
+			else {
 				res.send(rs);
 			}
 		})

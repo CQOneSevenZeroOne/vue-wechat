@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<a href="#/chat" v-for="items in users">
+		<a href="#/dialogue" v-for="items in users">
 			<div class="weui-cell">
 
 				<div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
@@ -8,7 +8,7 @@
 					<span class="weui-badge" style="position: absolute;top: -.4em;right: -.4em;">8</span>
 				</div>
 				<div class="weui-cell__bd">
-					<p v-text='items.username'></p>
+					<p v-text='items.nickname'></p>
 					<p style="font-size: 13px;color: #888888;">帅哥你好</p>
 				</div>
 			</div>
@@ -37,6 +37,9 @@
 					console.log(data);
 				}
 			})
+		},
+		components:{
+			
 		}
 	}
 </script>

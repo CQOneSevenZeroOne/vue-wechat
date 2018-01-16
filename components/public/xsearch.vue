@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="weui-search-bar" :class="{'weui-search-bar_focusing':isShowSearchBar}" id="searchBar">
-			<form class="weui-search-bar__form">
+			<form class="weui-search-bar__form" style="z-index:0">
 				<div class="weui-search-bar__box">
 					<i class="weui-icon-search"></i>
 					<input v-model="searchInput" type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
@@ -72,5 +72,6 @@
 </script>
 
 <style>
+	
 
 </style>
