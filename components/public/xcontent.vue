@@ -27,19 +27,15 @@
 			}
 		},
 		mounted() {
-			let self = this;
-			$.ajax({
-				type: "post",
-				dataType: 'json',
-				url: "http://localhost:7878/getUser",
-				success(data) {
-					self.users = data;
-					console.log(data);
-				}
-			})
-		},
-		components:{
-			
+			let self = this;		
+				$.ajax({
+					type: "post",
+					dataType: 'json',
+					url: "http://localhost:7878/getUser",
+					success(data) {
+						self.users = data;
+					}
+				})
 		}
 	}
 </script>
