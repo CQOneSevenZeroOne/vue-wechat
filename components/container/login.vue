@@ -91,7 +91,7 @@
 							if(data == "ok") {
 								self.isToastShow = true;
 								self.$store.state.isLogin = true;
-								setInterval(()=>{
+								setTimeout(()=>{
 									location.href = "#/tab/wechat";
 								},1200)
 								
