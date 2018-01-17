@@ -86,7 +86,7 @@
 				if(!reg.test(this.username)){
 					return;
 				}
-				for(let i=0;i<this.allUser.length-1;i++) {
+				for(let i=0;i<this.allUser.length;i++) {
 					if(this.username == this.allUser[i].username) {
 						isExist = true;
 						break;
@@ -98,7 +98,8 @@
 			},
 			testNickname(){
 				let isExist = false;
-				for(let i=0;i<this.allUser.length-1;i++) {
+				console.log(this.allUser);
+				for(let i=0;i<this.allUser.length;i++) {
 					if(this.nickname == this.allUser[i].nickname) {
 						isExist = true;
 						break;
