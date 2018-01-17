@@ -1,20 +1,29 @@
 <template>
 	
 	<div >		
-		<xheader name="Emily"></xheader>	
-		<footer class="dialogue-footer" >
+		<xheader :name="nickname"></xheader>	
+		<ul class="chatlist">
+			<li v-for="a in arr"  >
+				<div class="pic"  :style="{float:a.type?'left':'right',background:a.type?'white':'#A2E563'}">
+					<img :src="ownPortrait" v-if="a.type == 0"/>
+					<img :src="friendPortrait" v-if="a.type == 1"/>
+				</div>
+				<p v-text="a.msg"  :style="{float:a.type?'left':'right',background:a.type?'white':'#A2E563'}"></p>
+			</li>
+		</ul>
+		<footer class="dialogue-footer" @keydown.enter="sendMessage">
 			<div class="component-dialogue-bar-person" _v-afd9c2a0=""> 
 				<span @click="changevowr" :class="vowr?'iconfont icon-dialogue-jianpan':'iconfont icon-dialogue-voice'" style="touch-action: manipulation; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></span> 
 				<span class="iconfont icon-dialogue-voice" style="touch-action: manipulation; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: none;"></span>
-				<div @mousedown="speakdown" @mouseup="speakup" class="chat-way" >
-					<div class="chat-say" style="touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"> 
+				<div @mousedown="speakdown" @mouseup="speakup" class="chat-way" :style="{display:vowr?'block':'none'}">
+					<div class="chat-say" > 
 						<span  v-show="vowr&&!speak" class="one" >按住 说话</span>
-						<span  class="two" :style="{'disPlay:block':speak&&vowr}" >松开 结束</span>
+						<span  class="two" v-show="vowr&&speak" >松开 结束</span>
 						
 					</div>
 				</div>
-				<div class="chat-way" style="display: none;"> 
-					<input class="chat-txt" type="text"> 
+				<div class="chat-way" :style="{display:!vowr?'block':'none'}"> 
+					<input class="chat-txt" type="text" v-model="smsg"> 
 				</div> 
 				<span  class="expression iconfont icon-dialogue-smile"></span> 			<span class="more iconfont icon-dialogue-jia"></span>
 				
@@ -28,34 +37,76 @@
 </template>
 
 <script>
-	import xheader from '../public/xheader.vue'
+	import io from "socketClient";
+	import xheader from '../public/xheader.vue';
+	import $ from "jquery";
 	export default{
 		data(){
 			return {
 				vowr:0,
 				speak:0,
-				chatuser:"jsidjisad"
-				
-			
+				arr:[],
+				socket:io("http://localhost:7878"),
+				rmsg:'',
+				smsg:'',
+				nickname:'',	
+				ownPortrait:'',
+				friendPortrait:'',
 			}
 		},
 		methods:{
 			changevowr(){
 				this.vowr = !this.vowr;
-				console.log(this.speak)
+				
 				
 			},
 			speakdown(){
 				this.speak = 1;	
+				console.log(this.vowr,this.speak)
 				
 			},
 			speakup(){
 				this.speak = 0;	
 				
+			},
+			receiveMsg(){
+				var self = this;
+				this.socket.on("welcome",function(data){
+					
+				})
+			},
+			sendMessage(){
+				let self = this;
+				this.socket.emit("sendMsg",{msg:this.smsg,tid:this.$route.params.id})
+				this.arr.push({msg:self.smsg,type:0})
+				this.smsg = "";
 			}
 		},
 		components:{
 			xheader
+		},
+		mounted(){
+			let self = this;
+			this.ownPortrait = this.$store.state.portrait
+			this.socket.emit("getid",{
+				id:self.$store.state.userId,
+			});
+			this.socket.on("receiveMsg",function(data){
+				console.log(data);
+				self.rmsg = data.msg;
+				self.arr.push({msg:self.rmsg,type:1});
+				
+			})
+			
+			$.ajax({
+				type:"get",
+				url:"http://localhost:7878/getUserInfo?tid="+self.$route.params.id,
+				success(data){
+					console.log(data);
+					self.nickname = data[0].nickname;
+					self.friendPortrait = data[0].portrait;
+				}
+			})
 		}
 	}
 </script>
@@ -211,9 +262,9 @@
     background-color: #c6c7ca;
 }
 
-.chat-way .two {
-    display: none;
-}
+/*.chat-way .two {
+   display: none;
+}*/
 
 .chat-way .chat-say_touched .two {
     display: block;
@@ -229,6 +280,7 @@
     padding: 0 10px;
     width: 200%;
     height: 200%;
+   
     border: 1px solid #7d7e83;
     transform: scale(.5);
     transform-origin: 0 0;
@@ -291,5 +343,41 @@
 .chathead .iconfont{
 	font-size: 25px;
 }
-
+.inputtext{
+	width: 230px;
+	height: 32px;
+}
+.chatlist{
+	
+	padding: 10px;
+	width: 100%;
+	
+}
+.chatlist>li{
+	overflow: hidden;
+	width: 100%;
+	
+	margin: 10px 0;
+}
+.chatlist .pic {
+	
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: 6px 20px ;
+}
+.chatlist .pic img{
+	width: 100%;
+}
+.chatlist>li>p{
+	
+	border:1px solid #C7C7C7;
+	border-radius: 5px;
+	max-width: 60%;
+	line-height: 30px;
+	padding: 5px 15px;
+	
+	
+}
 </style>

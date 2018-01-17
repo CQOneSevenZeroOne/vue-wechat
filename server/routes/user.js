@@ -1,6 +1,6 @@
 module.exports = function(app, conn) {
 	app.post("/getUser", (req, res) => {
-		let sql = "select nickname,portrait from user";
+		let sql = "select id,nickname,portrait from user";
 		conn.query(sql, (err, rs) => {
 			if(err) {
 				console.log(err.message);
@@ -37,12 +37,24 @@ module.exports = function(app, conn) {
 		})
 	});
 	app.post("/login", (req, res) => {
-		let sql = "select username,pwd from user";
+		let sql = "select id,username,pwd,portrait from user";
 		conn.query(sql, (err, rs) => {
 			if(err) console.log(err.messqge);
 			else {
 				res.send(rs);
 			}
 		})
-	})
+	});
+	app.get("/getUserInfo", (req, res) => {
+		let id = req.query.tid;
+		let sql = "select nickname,portrait from user where id='" + id + "';";
+
+		conn.query(sql, (err, rs) => {
+			if(err) console.log(err.message);
+			else {
+				res.send(rs);
+			}
+		});
+	});
+	
 }

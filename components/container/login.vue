@@ -44,6 +44,7 @@
 
 <script>
 	import $ from "jquery";
+	import io from "socketClient";
 	export default {
 		data() {
 			return {
@@ -55,7 +56,8 @@
 				userList: [],
 				msg: '',
 				isMsgShow: false,
-				isToastShow: false
+				isToastShow: false,
+				socket:io("http://localhost:7878"),
 			}
 		},
 		methods: {
@@ -91,6 +93,8 @@
 							if(data == "ok") {
 								self.isToastShow = true;
 								self.$store.state.isLogin = true;
+								self.$store.state.userId = self.userList[self.userIndex].id;
+								self.$store.state.portrait = self.userList[self.userIndex].portrait;
 								setTimeout(()=>{
 									location.href = "#/tab/wechat";
 								},1200)

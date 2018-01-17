@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<a href="#/dialogue" v-for="items in users">
+		<a :href="'#/dialogue/'+items.id" v-for="items in users">
 			<div class="weui-cell">
 
 				<div class="weui-cell__hd" style="position: relative;margin-right: 10px;">

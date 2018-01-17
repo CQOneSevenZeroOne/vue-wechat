@@ -17,6 +17,9 @@ const router = new VueRouter({
 const store = new Vuex.Store({
   state: {
     isLogin:false,
+    userId:0,
+    socketid:'',
+    portrait:''
   },
 })
 
@@ -43,4 +46,4 @@ new Vue({
 	`,
 	router,
 	store
-})
+});

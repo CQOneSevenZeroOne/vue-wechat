@@ -10,7 +10,7 @@ module.exports = {
 	resolve: {
 		alias: {
 			vue: "vue/dist/vue.js",
-			
+			socketClient: "socket.io-client/dist/socket.io.js"
 		}
 	},
 	module: {
