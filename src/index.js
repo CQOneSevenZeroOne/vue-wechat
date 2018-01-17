@@ -20,22 +20,20 @@ const store = new Vuex.Store({
   },
 })
 
-router.beforeEach((to, from, next) => { //设置全局导航守卫
-	if(to.path != "/login"&&to.path != "/register"){
-		if(!store.state.isLogin){
-			router.push({name:"login"});
-			return;
-		}
-	}
-	if(to.name === "login"){
-		if(store.state.isLogin){
-			router.push({name:"wechat"});
-			return;
-		}
-	}
-	next();
-	
-})
+//router.beforeEach((to, from, next) => { //设置全局导航守卫
+//	if(to.path != "/login"&&to.path != "/register"){
+//		if(!store.state.isLogin){
+//			router.push({name:"login"});
+//		}
+//	}
+//	if(to.name === "login"){
+//		if(store.state.isLogin){
+//			router.push({name:"wechat"});
+//		}
+//	}
+//	next();
+//	
+//})
 
 new Vue({
 	el: '#app',
