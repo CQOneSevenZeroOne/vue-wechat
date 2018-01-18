@@ -6,7 +6,7 @@ import details from '../components/container/details.vue';
 import together from '../components/container/together.vue';
 import addfriends from '../components/container/addfriends.vue';
 import dialogue from '../components/container/dialogue.vue';
-
+import chatdetalis from '../components/container/chatdetalis.vue';
 
 
 import userlist from '../components/tabs/userlist.vue';
@@ -71,4 +71,8 @@ export default [{
 	path: "/dialogue/:id",
 	name: "dialogue",
 	component: dialogue
+},{
+	path: "/chatdetalis",
+	name: "chatdetalis",
+	component: chatdetalis
 }]

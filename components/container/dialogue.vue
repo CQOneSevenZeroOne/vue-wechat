@@ -351,6 +351,8 @@
 	
 	padding: 10px;
 	width: 100%;
+	overflow-y:scroll;
+	height: 630px;
 	
 }
 .chatlist>li{
@@ -377,7 +379,8 @@
 	max-width: 60%;
 	line-height: 30px;
 	padding: 5px 15px;
-	
+	min-height: 42px;
+    min-width: 42px;
 	
 }
 </style>
